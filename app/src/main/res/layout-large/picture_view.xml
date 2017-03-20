@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent" >
+
+    <item
+        android:id="@+id/menu_item_share"
+        android:layout_width="50"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:actionProviderClass="ancroid.widget.SharedActionProvider"
+        android:setAsAction="ifRoom"
+        android:title="Share"
+        android:background="@drawable/stitch_button"/>
 
     <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/picture"
@@ -10,4 +20,4 @@
         android:layout_height="match_parent"
         android:padding="16dp" />
 
-</FrameLayout>
+</RelativeLayout>
