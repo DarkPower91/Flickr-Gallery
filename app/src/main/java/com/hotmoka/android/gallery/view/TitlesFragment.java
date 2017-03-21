@@ -24,16 +24,24 @@ import static com.hotmoka.android.gallery.model.Pictures.Event.PICTURES_LIST_CHA
 public abstract class TitlesFragment extends ListFragment
         implements GalleryFragment {
 
+    //PLACEHOLDERS
+    Integer[] imageId = {R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+            R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+            R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+            R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+            R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+            R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+            R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher,
+            R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher, R.drawable.ic_launcher};
+    //PLACEHOLDERS
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         // Show the titles, or the empty list if there is none yet
         String[] titles = MVC.model.getTitles();
-        setListAdapter(new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                titles == null ? new String[0] : titles));
-
+        setListAdapter(new PictureTextList(getActivity(),titles == null ? new String[0]:titles,titles == null ? new Integer[0]:imageId));
         // If no titles exist yet, ask the controller to reload them
         if (titles == null) {
             ((GalleryActivity) getActivity()).showProgressIndicator();
@@ -73,10 +81,11 @@ public abstract class TitlesFragment extends ListFragment
 
     @Override @UiThread
     public void onModelChanged(Pictures.Event event) {
-        if (event == PICTURES_LIST_CHANGED)
+        if (event == PICTURES_LIST_CHANGED) {
+            String[] titles = MVC.model.getTitles(); //questp una volta ultimato po' essere inserito direttamente nella chiamata
             // Show the new list of titles
-            setListAdapter(new ArrayAdapter<>(getActivity(),
-                    android.R.layout.simple_list_item_activated_1,
-                    MVC.model.getTitles()));
+            setListAdapter(new PictureTextList(getActivity(), titles == null ? new String[0] : titles, titles == null ? new Integer[0] : imageId));
+
+        }
     }
 }
