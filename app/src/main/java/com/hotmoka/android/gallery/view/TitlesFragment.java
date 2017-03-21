@@ -28,7 +28,7 @@ import static com.hotmoka.android.gallery.model.Pictures.Event.PICTURES_LIST_CHA
 public abstract class TitlesFragment extends ListFragment
         implements GalleryFragment {
 
-    private ShareActionProvider mShare;
+    //private ShareActionProvider mShare;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -54,15 +54,13 @@ public abstract class TitlesFragment extends ListFragment
         setHasOptionsMenu(true);
     }
 
-    @TargetApi(14)
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_titles, menu);
-
-
-
+       // inflater.inflate(R.menu.fragment_titles, menu);
+        //menu.removeItem(R.id.menu_item_share);
     }
+/*
     @TargetApi(14)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -88,14 +86,14 @@ public abstract class TitlesFragment extends ListFragment
                 return super.onOptionsItemSelected(item);
         }
     }
-
+/*
     @TargetApi(14)
     private void setShareIntent(Intent shareIntent){
        // if(mShare!=null){
             mShare.setShareIntent(shareIntent);
        // }
     }
-
+*/
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Delegate to the controller

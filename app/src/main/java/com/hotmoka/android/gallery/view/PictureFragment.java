@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.UiThread;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,6 +52,20 @@ public abstract class PictureFragment extends Fragment implements GalleryFragmen
         showPictureOrDownloadIfMissing();
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // This fragment uses menus
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //super.onCreateOptionsMenu(menu, inflater);
+        //inflater.inflate(R.menu.fragment_titles, menu);
+        //menu.removeItem(R.id.menu_item_load);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
     /**
      * Shows the picture corresponding to the given position in the list.
      * If missing, it will start a background download task.
@@ -84,6 +100,7 @@ public abstract class PictureFragment extends Fragment implements GalleryFragmen
         Bitmap bitmap = MVC.model.getBitmap(position);
         if (bitmap != null) {
             ((ImageView) getView().findViewById(R.id.picture)).setImageBitmap(bitmap);
+
             return true;
         }
         else
@@ -106,4 +123,6 @@ public abstract class PictureFragment extends Fragment implements GalleryFragmen
                 break;
         }
     }
+
+
 }
