@@ -1,6 +1,8 @@
 package com.hotmoka.android.gallery.view.single;
 
+import android.content.Intent;
 import android.support.annotation.UiThread;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.hotmoka.android.gallery.MVC;
@@ -21,6 +23,7 @@ public class PictureFragment extends com.hotmoka.android.gallery.view.PictureFra
      * @param position
      * @return the fragment that has been created
      */
+
     @UiThread
     public static PictureFragment mkInstance(int position) {
         PictureFragment fragment = new PictureFragment();
