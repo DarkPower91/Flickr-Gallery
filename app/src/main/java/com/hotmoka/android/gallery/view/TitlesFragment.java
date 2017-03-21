@@ -63,10 +63,6 @@ public abstract class TitlesFragment extends ListFragment
         MenuItem shareItem = menu.findItem(R.id.menu_item_share);
         mShare =(ShareActionProvider) shareItem.getActionProvider();
 
-
-       /*
-        inflater.inflate(R.menu.fragment_titles, menu);
-        */
     }
     @TargetApi(14)
     @Override
