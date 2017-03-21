@@ -60,8 +60,7 @@ public abstract class TitlesFragment extends ListFragment
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_titles, menu);
 
-        MenuItem shareItem = menu.findItem(R.id.menu_item_share);
-        mShare =(ShareActionProvider) shareItem.getActionProvider();
+
 
     }
     @TargetApi(14)
@@ -75,11 +74,15 @@ public abstract class TitlesFragment extends ListFragment
         }
         else {
             if(item.getItemId() == R.id.menu_item_share){
+                //MenuItem shareItem = item.findItem(R.id.menu_item_share);
+               // MenuItem shareItem= item;
+               // mShare =(ShareActionProvider) shareItem.getActionProvider();
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, "culo");
                 shareIntent.setType("text/plain");
-                setShareIntent(shareIntent);
+                //setShareIntent(shareIntent);
+                startActivity(Intent.createChooser(shareIntent, "Share via"));
                 return true;
             }else
                 return super.onOptionsItemSelected(item);
