@@ -49,17 +49,6 @@ public class TitlesFragment extends com.hotmoka.android.gallery.view.TitlesFragm
             MVC.controller.onTitlesReloadRequest(getActivity());
             return true;
         }
-        else if(item.getItemId() == R.id.menu_item_share){
-            ImageView image=(ImageView)getView().findViewById(R.id.picture);
-            startActivity(Intent.createChooser(MVC.controller.shareImage(image), "Share Image"));
-            /*
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "culo");
-            shareIntent.setType("text/plain");
-            startActivity(Intent.createChooser(shareIntent, "Share via"));*/
-            return true;
-            }
         else
             return super.onOptionsItemSelected(item);
 
