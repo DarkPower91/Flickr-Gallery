@@ -61,9 +61,6 @@ public abstract class PictureFragment extends Fragment implements GalleryFragmen
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //super.onCreateOptionsMenu(menu, inflater);
-        //inflater.inflate(R.menu.fragment_titles, menu);
-        //menu.removeItem(R.id.menu_item_load);
         super.onCreateOptionsMenu(menu, inflater);
     }
     /**

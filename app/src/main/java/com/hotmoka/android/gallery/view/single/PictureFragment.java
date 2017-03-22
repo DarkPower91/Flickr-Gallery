@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.UiThread;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,11 @@ import android.widget.TextView;
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.R;
 import com.hotmoka.android.gallery.view.GalleryActivity;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * The picture fragment for a single pane layout.
@@ -53,23 +60,6 @@ public class PictureFragment extends com.hotmoka.android.gallery.view.PictureFra
         return shown;
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        int width = drawable.getIntrinsicWidth();
-        width = width > 0 ? width : 1;
-        int height = drawable.getIntrinsicHeight();
-        height = height > 0 ? height : 1;
-
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -82,22 +72,25 @@ public class PictureFragment extends com.hotmoka.android.gallery.view.PictureFra
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
             if(item.getItemId() == R.id.menu_item_share){
-                //MenuItem shareItem = item.findItem(R.id.menu_item_share);
-                // MenuItem shareItem= item;
-                // mShare =(ShareActionProvider) shareItem.getActionProvider();
-                Drawable img=((ImageView)getView().findViewById(R.id.picture)).getDrawable();
-                Bitmap bitmap=drawableToBitmap(img);
-                if(img==null){
-                    android.util.Log.v("boh","ok");
+                ImageView image=(ImageView)getView().findViewById(R.id.picture);
+                startActivity(Intent.createChooser(MVC.controller.shareImage(image), "Share Image"));
+                /*
+                Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("image/jpeg");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+                try {
+                    f.createNewFile();
+                    FileOutputStream fo = new FileOutputStream(f);
+                    fo.write(bytes.toByteArray());
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                android.util.Log.v("boh","me");
-
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "culo");
-                shareIntent.setType("text/plain");
-                //setShareIntent(shareIntent);
-                startActivity(Intent.createChooser(shareIntent, "Share via"));
+                share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+                startActivity(Intent.createChooser(share, "Share Image"));
+                f.deleteOnExit();*/
                 return true;
             }else
                 return super.onOptionsItemSelected(item);

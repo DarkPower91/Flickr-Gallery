@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.hotmoka.android.gallery.MVC;
@@ -48,20 +49,19 @@ public class TitlesFragment extends com.hotmoka.android.gallery.view.TitlesFragm
             MVC.controller.onTitlesReloadRequest(getActivity());
             return true;
         }
-        else {
-            if(item.getItemId() == R.id.menu_item_share){
-                //MenuItem shareItem = item.findItem(R.id.menu_item_share);
-                // MenuItem shareItem= item;
-                // mShare =(ShareActionProvider) shareItem.getActionProvider();
-                Intent shareIntent = new Intent();
-                shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "culo");
-                shareIntent.setType("text/plain");
-                //setShareIntent(shareIntent);
-                startActivity(Intent.createChooser(shareIntent, "Share via"));
-                return true;
-            }else
-                return super.onOptionsItemSelected(item);
-        }
+        else if(item.getItemId() == R.id.menu_item_share){
+            ImageView image=(ImageView)getView().findViewById(R.id.picture);
+            startActivity(Intent.createChooser(MVC.controller.shareImage(image), "Share Image"));
+            /*
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "culo");
+            shareIntent.setType("text/plain");
+            startActivity(Intent.createChooser(shareIntent, "Share via"));*/
+            return true;
+            }
+        else
+            return super.onOptionsItemSelected(item);
+
     }
 }
