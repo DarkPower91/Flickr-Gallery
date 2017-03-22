@@ -20,6 +20,7 @@ import com.hotmoka.android.gallery.view.GalleryActivity;
  */
 public class TitlesFragment extends com.hotmoka.android.gallery.view.TitlesFragment {
 
+    static private MenuItem share;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -31,12 +32,15 @@ public class TitlesFragment extends com.hotmoka.android.gallery.view.TitlesFragm
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         // Keep the selected item checked also after click
+        share.setVisible(true);
         getListView().setItemChecked(position, true);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_titles, menu);
+        share=menu.findItem(R.id.menu_item_share);
+        share.setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -47,6 +51,7 @@ public class TitlesFragment extends com.hotmoka.android.gallery.view.TitlesFragm
             android.util.Log.v("Load","touched load");
             ((GalleryActivity) getActivity()).showProgressIndicator();
             MVC.controller.onTitlesReloadRequest(getActivity());
+            share.setVisible(false);
             return true;
         }
         else

@@ -2,6 +2,8 @@ package com.hotmoka.android.gallery.view.two;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
