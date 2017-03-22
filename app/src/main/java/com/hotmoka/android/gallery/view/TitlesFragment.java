@@ -82,7 +82,7 @@ public abstract class TitlesFragment extends ListFragment
     @Override @UiThread
     public void onModelChanged(Pictures.Event event) {
         if (event == PICTURES_LIST_CHANGED) {
-            String[] titles = MVC.model.getTitles(); //questp una volta ultimato po' essere inserito direttamente nella chiamata
+            String[] titles = MVC.model.getTitles(); //questo una volta ultimato po' essere inserito direttamente nella chiamata
             // Show the new list of titles
             setListAdapter(new PictureTextList(getActivity(), titles == null ? new String[0] : titles, titles == null ? new Integer[0] : imageId));
 

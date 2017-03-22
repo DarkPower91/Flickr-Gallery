@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hotmoka.android.gallery.R;
@@ -36,7 +37,15 @@ public class PictureTextList extends ArrayAdapter<String> {
         TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
         txtTitle.setText(names[position]);
-        imageView.setImageResource(imageId[position]);
+
+        try {
+            imageView.setImageResource(imageId[position]);
+            imageView.setVisibility(View.VISIBLE);
+            rowView.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+        }
+        catch(RuntimeException e){
+            imageView.setVisibility(View.INVISIBLE);
+        }
         return rowView;
     }
 }
