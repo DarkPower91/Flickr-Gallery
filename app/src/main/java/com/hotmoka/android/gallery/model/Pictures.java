@@ -84,11 +84,13 @@ public class Pictures {
         return urls != null && position >= 0 && position < urls.length ? urls[position] : null;
     }
 
-    public synchronized Bitmap getLowResBitmap(int position){
-        if (lowResUrls == null || position < 0 || position >= lowResUrls.length)
-            return null;
-        else
-            return lowResBitmap.get(urls[position]);
+    public synchronized Bitmap[] getLowResBitmaps(){
+        Bitmap bitmaps[]=new Bitmap[lowResUrls.length];
+        for (int index = 0; index < lowResUrls.length;index++)
+        {
+            bitmaps[index] = lowResBitmap.get(lowResUrls[index]);
+        }
+        return bitmaps;
     }
 
     public synchronized String getLowResUrl(int position){
@@ -149,7 +151,6 @@ public class Pictures {
         synchronized (this) {
             this.bitmaps.put(url, bitmap);
         }
-
         // Tell all registered views that a bitmap changed
         notifyViews(Event.BITMAP_CHANGED);
     }

@@ -15,7 +15,7 @@ import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.R;
 import com.hotmoka.android.gallery.model.Pictures;
 
-import static com.hotmoka.android.gallery.model.Pictures.Event.PICTURES_LIST_CHANGED;
+import static com.hotmoka.android.gallery.model.Pictures.Event.*;
 
 /**
  * A fragment containing the titles of the Flickr Gallery app.
@@ -76,6 +76,8 @@ public abstract class TitlesFragment extends ListFragment
             // Show the new list of titles
             setListAdapter(new PictureTextList(getActivity(), titles == null ? new String[0] : titles, titles == null ? new Bitmap[0]:new Bitmap[titles.length]));
         }
-
+        if(event == LOWRES_BITMAP_CHANGED){
+            setListAdapter(new PictureTextList(getActivity(), MVC.model.getTitles(), MVC.model.getLowResBitmaps()));
+        }
     }
 }
