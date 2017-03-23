@@ -3,10 +3,20 @@ package com.hotmoka.android.gallery.controller;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.WorkerThread;
+import android.widget.ImageView;
 
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * An Android service that executes long-running background tasks
@@ -67,5 +77,24 @@ public class ControllerService extends IntentService {
                 new BitmapFetcher(intent.getStringExtra(PARAM_URL));
                 break;
         }
+    }
+
+    static Intent shareImage(ImageView image){
+        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+        f.deleteOnExit();
+        return share;
     }
 }

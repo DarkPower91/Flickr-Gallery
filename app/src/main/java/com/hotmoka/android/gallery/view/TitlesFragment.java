@@ -1,7 +1,10 @@
 package com.hotmoka.android.gallery.view;
 
+import android.annotation.TargetApi;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.UiThread;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ShareActionProvider;
 
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.R;
@@ -23,6 +27,8 @@ import static com.hotmoka.android.gallery.model.Pictures.Event.PICTURES_LIST_CHA
  */
 public abstract class TitlesFragment extends ListFragment
         implements GalleryFragment {
+
+    //private ShareActionProvider mShare;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -51,20 +57,43 @@ public abstract class TitlesFragment extends ListFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_titles, menu);
+       // inflater.inflate(R.menu.fragment_titles, menu);
+        //menu.removeItem(R.id.menu_item_share);
     }
-
+/*
+    @TargetApi(14)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_load) {
+            android.util.Log.v("Load","touched load");
             ((GalleryActivity) getActivity()).showProgressIndicator();
             MVC.controller.onTitlesReloadRequest(getActivity());
             return true;
         }
-        else
-            return super.onOptionsItemSelected(item);
+        else {
+            if(item.getItemId() == R.id.menu_item_share){
+                //MenuItem shareItem = item.findItem(R.id.menu_item_share);
+               // MenuItem shareItem= item;
+               // mShare =(ShareActionProvider) shareItem.getActionProvider();
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "culo");
+                shareIntent.setType("text/plain");
+                //setShareIntent(shareIntent);
+                startActivity(Intent.createChooser(shareIntent, "Share via"));
+                return true;
+            }else
+                return super.onOptionsItemSelected(item);
+        }
     }
-
+/*
+    @TargetApi(14)
+    private void setShareIntent(Intent shareIntent){
+       // if(mShare!=null){
+            mShare.setShareIntent(shareIntent);
+       // }
+    }
+*/
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Delegate to the controller

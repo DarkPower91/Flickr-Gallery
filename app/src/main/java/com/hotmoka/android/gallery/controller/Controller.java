@@ -1,7 +1,9 @@
 package com.hotmoka.android.gallery.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.UiThread;
+import android.widget.ImageView;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -71,4 +73,7 @@ public class Controller {
     void resetTaskCounter() {
         taskCounter.set(0);
     }
+
+
+    public Intent shareImage(ImageView image){return ControllerService.shareImage(image);}
 }
