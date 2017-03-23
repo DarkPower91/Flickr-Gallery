@@ -1,13 +1,12 @@
 package com.hotmoka.android.gallery.view;
 
 import android.app.Activity;
-import android.database.AbstractCursor;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hotmoka.android.gallery.R;
@@ -20,14 +19,14 @@ public class PictureTextList extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String [] names;
-    private final Integer[] imageId;
+    private final Bitmap[] images;
 
-    public PictureTextList (Activity context, String[] names, Integer[] imageId)
+    public PictureTextList (Activity context, String[] names, Bitmap[] images)
     {
         super(context, R.layout.list_single, names);
         this.context = context;
         this.names = names;
-        this.imageId = imageId;
+        this.images = images;
     }
 
     @Override
@@ -37,13 +36,12 @@ public class PictureTextList extends ArrayAdapter<String> {
         TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
         txtTitle.setText(names[position]);
-
-        try {
-            imageView.setImageResource(imageId[position]);
+        if (images.length != 0 && images[position] != null)
+        {
+            imageView.setImageBitmap(images[position]);
             imageView.setVisibility(View.VISIBLE);
             rowView.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
-        }
-        catch(RuntimeException e){
+        }else{
             imageView.setVisibility(View.INVISIBLE);
         }
         return rowView;
