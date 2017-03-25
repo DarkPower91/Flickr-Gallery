@@ -8,6 +8,8 @@ import android.support.annotation.WorkerThread;
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.R;
 
+import java.util.concurrent.Executor;
+
 /**
  * An Android service that executes long-running background tasks
  * on a worker thread. At the end, it modifies the model accordingly.
@@ -17,6 +19,7 @@ public class ControllerService extends IntentService {
     private final static String PARAM_HOW_MANY = "how many";
     private final static String PARAM_API_KEY = "API key";
     private final static String ACTION_FETCH_BITMAP = "fetch bitmap";
+    private final static String ACTION_FETCH_LOW_RES_BITMAP = "fetch low bitmap";
     private final static String PARAM_URL = "url";
 
     public ControllerService() {
@@ -35,6 +38,7 @@ public class ControllerService extends IntentService {
         intent.putExtra(PARAM_HOW_MANY, howMany);
         intent.putExtra(PARAM_API_KEY, context.getString(R.string.flick_key));
         context.startService(intent);
+        context.star
     }
 
     /**
@@ -47,6 +51,13 @@ public class ControllerService extends IntentService {
         Intent intent = new Intent(context, ControllerService.class);
         intent.setAction(ACTION_FETCH_BITMAP);
         intent.putExtra(PARAM_URL, url);
+        context.startService(intent);
+    }
+
+    static void fetchLowResPictures(Context context, String[] urls){
+        Intent intent = new Intent(context, ControllerService.class);
+        intent.setAction(ACTION_FETCH_LOW_RES_BITMAP);
+        intent.putExtra(PARAM_URL, urls);
         context.startService(intent);
     }
 
@@ -65,6 +76,10 @@ public class ControllerService extends IntentService {
                 break;
             case ACTION_FETCH_BITMAP:
                 new BitmapFetcher(intent.getStringExtra(PARAM_URL));
+                break;
+            case ACTION_FETCH_LOW_RES_BITMAP:
+                //new Executor() START A THREAD POOL HERE
+                android.util.Log.v("Controller Service","Action low res called");
                 break;
         }
     }

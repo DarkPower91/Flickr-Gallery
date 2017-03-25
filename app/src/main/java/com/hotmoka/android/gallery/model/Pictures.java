@@ -3,6 +3,7 @@ package com.hotmoka.android.gallery.model;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.BoolRes;
 import android.support.annotation.UiThread;
 import android.support.annotation.WorkerThread;
 
@@ -45,6 +46,8 @@ public class Pictures {
      * It maps to null if the bitmap for a url has not been downloaded yet.
      */
     private final Map<String, Bitmap> lowResBitmap = new HashMap<>();
+
+    private final Map<String,Boolean> ResMap = new HashMap<>();
 
     /**
      * Yields the titles of the pictures, if any.
@@ -93,8 +96,8 @@ public class Pictures {
         return bitmaps;
     }
 
-    public synchronized String getLowResUrl(int position){
-        return  lowResUrls != null && position >= 0 && position < lowResUrls.length ? lowResUrls[position] : null;
+    public synchronized String[] getLowResUrls(){
+        return  lowResUrls;
     }
 
     /**
@@ -121,7 +124,9 @@ public class Pictures {
         for (Picture picture: pictures) {
             titles.add(picture.title);
             urls.add(picture.url);
+            ResMap.put(picture.url,true);
             lowResUrls.add(picture.urlLowRes);
+            ResMap.put(picture.urlLowRes,false);
         }
 
         String[] titlesAsArray = titles.toArray(new String[titles.size()]);
@@ -148,21 +153,20 @@ public class Pictures {
      */
     @WorkerThread @UiThread
     public void setBitmap(String url, Bitmap bitmap) {
+        Event e;
         synchronized (this) {
-            this.bitmaps.put(url, bitmap);
+            if(ResMap.get(url)){
+                this.bitmaps.put(url, bitmap);
+                e = Event.BITMAP_CHANGED;
+            }
+            else
+            {
+                this.lowResBitmap.put(url,bitmap);
+                e = Event.LOWRES_BITMAP_CHANGED;
+            }
         }
         // Tell all registered views that a bitmap changed
-        notifyViews(Event.BITMAP_CHANGED);
-    }
-
-    //@WorkerThread @UiThread
-    public void setLowResUrlsBitmap(String url, Bitmap bitmap) {
-        synchronized (this) {
-            this.lowResBitmap.put(url, bitmap);
-        }
-
-        // Tell all registered views that a bitmap changed
-        notifyViews(Event.LOWRES_BITMAP_CHANGED);
+        notifyViews(e);
     }
 
     /**
