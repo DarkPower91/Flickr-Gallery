@@ -61,7 +61,10 @@ public class Controller {
      * Takes note that a background task has finished.
      */
     void taskFinished() {
-        taskCounter.decrementAndGet();
+        if( taskCounter.decrementAndGet()<0)
+        {
+            resetTaskCounter();
+        }
     }
 
     /**
@@ -72,4 +75,7 @@ public class Controller {
     void resetTaskCounter() {
         taskCounter.set(0);
     }
+
+    void newTaskStarted(){taskCounter.addAndGet(1);}
+
 }

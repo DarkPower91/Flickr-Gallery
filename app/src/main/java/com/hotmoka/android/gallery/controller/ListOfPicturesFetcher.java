@@ -20,6 +20,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * An object that fetches the latest titles uploaded
@@ -35,9 +38,11 @@ class ListOfPicturesFetcher {
         List<Picture> items = fetchItems(howMany, APIKey);
         MVC.controller.taskFinished();
         MVC.model.setPictures(items);
+
+        ExecutorService e = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         for (int i = 0; i < items.size();i++)
         {
-            new BitmapFetcher(items.get(i).urlLowRes);
+            e.submit(new LowResBitmapFetcher(items.get(i).urlLowRes));
         }
     }
     private List<Picture> fetchItems(int howMany, String APIKey) {
