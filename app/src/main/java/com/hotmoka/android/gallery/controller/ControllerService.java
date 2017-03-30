@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+
 /**
  * An Android service that executes long-running background tasks
  * on a worker thread. At the end, it modifies the model accordingly.
@@ -27,6 +28,7 @@ public class ControllerService extends IntentService {
     private final static String PARAM_HOW_MANY = "how many";
     private final static String PARAM_API_KEY = "API key";
     private final static String ACTION_FETCH_BITMAP = "fetch bitmap";
+    private final static String ACTION_FETCH_LOW_RES_BITMAP = "fetch low bitmap";
     private final static String PARAM_URL = "url";
 
     public ControllerService() {
@@ -60,6 +62,7 @@ public class ControllerService extends IntentService {
         context.startService(intent);
     }
 
+
     @Override
     public void onDestroy() {
         MVC.controller.resetTaskCounter();
@@ -75,6 +78,10 @@ public class ControllerService extends IntentService {
                 break;
             case ACTION_FETCH_BITMAP:
                 new BitmapFetcher(intent.getStringExtra(PARAM_URL));
+                break;
+            case ACTION_FETCH_LOW_RES_BITMAP:
+                //new Executor() START A THREAD POOL HERE
+                android.util.Log.v("Controller Service","Action low res called");
                 break;
         }
     }
