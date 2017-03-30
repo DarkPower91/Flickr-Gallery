@@ -3,7 +3,6 @@ package com.hotmoka.android.gallery.controller;
 import android.net.Uri;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
-import android.util.Xml;
 
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.model.Picture;
@@ -36,8 +35,11 @@ class ListOfPicturesFetcher {
         List<Picture> items = fetchItems(howMany, APIKey);
         MVC.controller.taskFinished();
         MVC.model.setPictures(items);
+        for (int i = 0; i < items.size();i++)
+        {
+            new BitmapFetcher(items.get(i).urlLowRes);
+        }
     }
-
     private List<Picture> fetchItems(int howMany, String APIKey) {
         try {
             String url = Uri.parse(ENDPOINT).buildUpon()

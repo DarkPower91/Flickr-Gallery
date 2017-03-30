@@ -38,7 +38,6 @@ public class ControllerService extends IntentService {
         intent.putExtra(PARAM_HOW_MANY, howMany);
         intent.putExtra(PARAM_API_KEY, context.getString(R.string.flick_key));
         context.startService(intent);
-        context.star
     }
 
     /**

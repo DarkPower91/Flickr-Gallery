@@ -40,7 +40,7 @@ public class Controller {
     public void onTitlesReloadRequest(Context context) {
         taskCounter.incrementAndGet();
         ControllerService.fetchListOfPictures(context, 40);
-        ControllerService.fetchLowResPictures(context, MVC.model.getLowResUrls());
+        //ControllerService.fetchLowResPictures(context, MVC.model.getLowResUrls()); Questa chiamata deve avvenire solo dopo
     }
 
     /**
