@@ -20,6 +20,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * An object that fetches the latest titles uploaded
@@ -35,15 +38,19 @@ class ListOfPicturesFetcher {
         List<Picture> items = fetchItems(howMany, APIKey);
         MVC.controller.taskFinished();
         MVC.model.setPictures(items);
-    }
 
+        ExecutorService e = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        for (int i = 0; i < items.size();i++)
+        {
+            e.submit(new LowResBitmapFetcher(items.get(i).urlLowRes));
+        }
+    }
     private List<Picture> fetchItems(int howMany, String APIKey) {
         try {
-            // Build a query to Flickr's webservice
             String url = Uri.parse(ENDPOINT).buildUpon()
                     .appendQueryParameter("method", "flickr.photos.getRecent")
                     .appendQueryParameter("api_key", APIKey)
-                    .appendQueryParameter("extras", "url_z")
+                    .appendQueryParameter("extras", "url_z, url_sq")
                     .appendQueryParameter("per_page", String.valueOf(howMany))
                     .build().toString();
 
@@ -88,13 +95,14 @@ class ListOfPicturesFetcher {
         }
     }
 
-    private List<Picture> parseItems(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private List<Picture> parseItems(XmlPullParser Parser) throws XmlPullParserException, IOException {
         List<Picture> items = new ArrayList<>();
 
-        for (int eventType = parser.next(); eventType != XmlPullParser.END_DOCUMENT; eventType = parser.next())
-            if (eventType == XmlPullParser.START_TAG && "photo".equals(parser.getName())) {
-                String caption = parser.getAttributeValue(null, "title");
-                String url = parser.getAttributeValue(null, "url_z");
+        for (int eventType = Parser.next(); eventType != XmlPullParser.END_DOCUMENT; eventType = Parser.next())
+            if (eventType == XmlPullParser.START_TAG && "photo".equals(Parser.getName())) {
+                String caption = Parser.getAttributeValue(null, "title");
+                String url = Parser.getAttributeValue(null, "url_z");
+                String lowUrl = Parser.getAttributeValue(null, "url_sq");
                 if (caption == null || caption.isEmpty() || url == null)
                     // The picture might be missing or not have this size
                     continue;
@@ -102,7 +110,7 @@ class ListOfPicturesFetcher {
                 if (caption.length() > MAX_TITLE_LENGTH)
                     caption = caption.substring(0, MAX_TITLE_LENGTH - 3) + "...";
 
-                items.add(new Picture(caption, url));
+                items.add(new Picture(caption,url,lowUrl));
             }
 
         return items;

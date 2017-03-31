@@ -3,10 +3,21 @@ package com.hotmoka.android.gallery.controller;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.WorkerThread;
+import android.widget.ImageView;
 
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 
 /**
  * An Android service that executes long-running background tasks
@@ -17,6 +28,7 @@ public class ControllerService extends IntentService {
     private final static String PARAM_HOW_MANY = "how many";
     private final static String PARAM_API_KEY = "API key";
     private final static String ACTION_FETCH_BITMAP = "fetch bitmap";
+    private final static String ACTION_FETCH_LOW_RES_BITMAP = "fetch low bitmap";
     private final static String PARAM_URL = "url";
 
     public ControllerService() {
@@ -50,6 +62,7 @@ public class ControllerService extends IntentService {
         context.startService(intent);
     }
 
+
     @Override
     public void onDestroy() {
         MVC.controller.resetTaskCounter();
@@ -66,6 +79,29 @@ public class ControllerService extends IntentService {
             case ACTION_FETCH_BITMAP:
                 new BitmapFetcher(intent.getStringExtra(PARAM_URL));
                 break;
+            case ACTION_FETCH_LOW_RES_BITMAP:
+                //new Executor() START A THREAD POOL HERE
+                android.util.Log.v("Controller Service","Action low res called");
+                break;
         }
+    }
+
+    static Intent shareImage(ImageView image){
+        Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+        f.deleteOnExit();
+        return share;
     }
 }

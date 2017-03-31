@@ -1,7 +1,9 @@
 package com.hotmoka.android.gallery.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.UiThread;
+import android.widget.ImageView;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -40,6 +42,7 @@ public class Controller {
     public void onTitlesReloadRequest(Context context) {
         taskCounter.incrementAndGet();
         ControllerService.fetchListOfPictures(context, 40);
+        //ControllerService.fetchLowResPictures(context, MVC.model.getLowResUrls()); Questa chiamata deve avvenire solo dopo
     }
 
     /**
@@ -60,7 +63,10 @@ public class Controller {
      * Takes note that a background task has finished.
      */
     void taskFinished() {
-        taskCounter.decrementAndGet();
+        if( taskCounter.decrementAndGet()<0)
+        {
+            resetTaskCounter();
+        }
     }
 
     /**
@@ -71,4 +77,7 @@ public class Controller {
     void resetTaskCounter() {
         taskCounter.set(0);
     }
+
+    public Intent shareImage(ImageView image){return ControllerService.shareImage(image);}
+
 }

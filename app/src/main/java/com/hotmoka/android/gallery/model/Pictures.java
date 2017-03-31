@@ -3,6 +3,7 @@ package com.hotmoka.android.gallery.model;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.BoolRes;
 import android.support.annotation.UiThread;
 import android.support.annotation.WorkerThread;
 
@@ -34,6 +35,19 @@ public class Pictures {
      * It maps to null if the bitmap for a url has not been downloaded yet.
      */
     private final Map<String, Bitmap> bitmaps = new HashMap<>();
+
+    /**
+     * The url from where their low resolution bitmaps can be download.
+     */
+    private String[] lowResUrls;
+
+    /**
+     * A map from each url to the downloaded low resolution bitmap.
+     * It maps to null if the bitmap for a url has not been downloaded yet.
+     */
+    private final Map<String, Bitmap> lowResBitmap = new HashMap<>();
+
+    private final Map<String,Boolean> ResMap = new HashMap<>();
 
     /**
      * Yields the titles of the pictures, if any.
@@ -73,12 +87,26 @@ public class Pictures {
         return urls != null && position >= 0 && position < urls.length ? urls[position] : null;
     }
 
+    public synchronized Bitmap[] getLowResBitmaps(){
+        Bitmap bitmaps[]=new Bitmap[lowResUrls.length];
+        for (int index = 0; index < lowResUrls.length;index++)
+        {
+            bitmaps[index] = lowResBitmap.get(lowResUrls[index]);
+        }
+        return bitmaps;
+    }
+
+    public synchronized String[] getLowResUrls(){
+        return  lowResUrls;
+    }
+
     /**
      * The kind of events that can be notified to a view.
      */
     public enum Event {
         PICTURES_LIST_CHANGED,
-        BITMAP_CHANGED
+        BITMAP_CHANGED,
+        LOWRES_BITMAP_CHANGED
     }
 
     /**
@@ -91,19 +119,25 @@ public class Pictures {
     public void setPictures(Iterable<Picture> pictures) {
         List<String> titles = new ArrayList<>();
         List<String> urls = new ArrayList<>();
+        List<String> lowResUrls = new ArrayList<>();
 
         for (Picture picture: pictures) {
             titles.add(picture.title);
             urls.add(picture.url);
+            ResMap.put(picture.url,true);
+            lowResUrls.add(picture.urlLowRes);
+            ResMap.put(picture.urlLowRes,false);
         }
 
         String[] titlesAsArray = titles.toArray(new String[titles.size()]);
         String[] urlsAsArray = urls.toArray(new String[urls.size()]);
+        String[] lowResUrlsArray = lowResUrls.toArray(new String[lowResUrls.size()]);
 
         // Synchronize for the shortest possible time
         synchronized (this) {
             this.titles = titlesAsArray;
             this.urls = urlsAsArray;
+            this.lowResUrls = lowResUrlsArray;
             this.bitmaps.clear();
         }
 
@@ -119,12 +153,20 @@ public class Pictures {
      */
     @WorkerThread @UiThread
     public void setBitmap(String url, Bitmap bitmap) {
+        Event e;
         synchronized (this) {
-            this.bitmaps.put(url, bitmap);
+            if(ResMap.get(url)){
+                this.bitmaps.put(url, bitmap);
+                e = Event.BITMAP_CHANGED;
+            }
+            else
+            {
+                this.lowResBitmap.put(url,bitmap);
+                e = Event.LOWRES_BITMAP_CHANGED;
+            }
         }
-
         // Tell all registered views that a bitmap changed
-        notifyViews(Event.BITMAP_CHANGED);
+        notifyViews(e);
     }
 
     /**
