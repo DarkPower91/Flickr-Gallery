@@ -3,7 +3,6 @@ package com.hotmoka.android.gallery.model;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.BoolRes;
 import android.support.annotation.UiThread;
 import android.support.annotation.WorkerThread;
 

@@ -2,10 +2,7 @@ package com.hotmoka.android.gallery.controller;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
-
 import com.hotmoka.android.gallery.MVC;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,14 +23,11 @@ public class LowResBitmapFetcher implements Runnable {
 
     public void run(){
         Bitmap bitmap = null;
-
         try {
             byte[] bitmapBytes = getUrlBytes(url);
             bitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
         }
-        catch (IOException e) {
-            Log.e("No", "Error downloading image", e);
-        }
+        catch (IOException e) {}
         if (bitmap != null)
             MVC.model.setBitmap(url, bitmap);
     }
