@@ -1,13 +1,11 @@
 package com.hotmoka.android.gallery.view.two;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.hotmoka.android.gallery.MVC;
@@ -31,8 +29,8 @@ public class TitlesFragment extends com.hotmoka.android.gallery.view.TitlesFragm
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        // Keep the selected item checked also after click
         share.setVisible(true);
+        // Keep the selected item checked also after click
         getListView().setItemChecked(position, true);
     }
 

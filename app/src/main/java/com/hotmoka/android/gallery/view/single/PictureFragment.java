@@ -2,28 +2,15 @@ package com.hotmoka.android.gallery.view.single;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.UiThread;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.R;
-import com.hotmoka.android.gallery.view.GalleryActivity;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 /**
  * The picture fragment for a single pane layout.
@@ -60,7 +47,6 @@ public class PictureFragment extends com.hotmoka.android.gallery.view.PictureFra
         return shown;
     }
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_titles, menu);
@@ -74,23 +60,6 @@ public class PictureFragment extends com.hotmoka.android.gallery.view.PictureFra
             if(item.getItemId() == R.id.menu_item_share && MVC.controller.isIdle()){
                 ImageView image=(ImageView)getView().findViewById(R.id.picture);
                 startActivity(Intent.createChooser(MVC.controller.shareImage(image), "Share Image"));
-                /*
-                Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("image/jpeg");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-                try {
-                    f.createNewFile();
-                    FileOutputStream fo = new FileOutputStream(f);
-                    fo.write(bytes.toByteArray());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
-                startActivity(Intent.createChooser(share, "Share Image"));
-                f.deleteOnExit();*/
                 return true;
             }else
                 return super.onOptionsItemSelected(item);

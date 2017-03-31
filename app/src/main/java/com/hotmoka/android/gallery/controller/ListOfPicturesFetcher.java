@@ -3,14 +3,11 @@ package com.hotmoka.android.gallery.controller;
 import android.net.Uri;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
-
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.model.Picture;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +17,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

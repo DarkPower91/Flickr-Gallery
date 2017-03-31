@@ -42,7 +42,6 @@ public class Controller {
     public void onTitlesReloadRequest(Context context) {
         taskCounter.incrementAndGet();
         ControllerService.fetchListOfPictures(context, 40);
-        //ControllerService.fetchLowResPictures(context, MVC.model.getLowResUrls()); Questa chiamata deve avvenire solo dopo
     }
 
     /**
@@ -62,12 +61,7 @@ public class Controller {
     /**
      * Takes note that a background task has finished.
      */
-    void taskFinished() {
-        if( taskCounter.decrementAndGet()<0)
-        {
-            resetTaskCounter();
-        }
-    }
+    void taskFinished() {resetTaskCounter();}
 
     /**
      * Resets the number of background tasks currently running.
