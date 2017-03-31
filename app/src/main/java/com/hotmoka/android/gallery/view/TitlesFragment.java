@@ -45,6 +45,10 @@ public abstract class TitlesFragment extends ListFragment
             ((GalleryActivity) getActivity()).showProgressIndicator();
             MVC.controller.onTitlesReloadRequest(getActivity());
         }
+        else
+        {
+            setListAdapter(new PictureTextList(getActivity(), MVC.model.getTitles(), MVC.model.getLowResBitmaps()));
+        }
     }
 
     @Override
