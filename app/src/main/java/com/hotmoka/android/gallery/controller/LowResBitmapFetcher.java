@@ -26,14 +26,11 @@ public class LowResBitmapFetcher implements Runnable {
 
     public void run(){
         Bitmap bitmap = null;
-
         try {
             byte[] bitmapBytes = getUrlBytes(url);
             bitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
         }
-        catch (IOException e) {
-            Log.e("No", "Error downloading image", e);
-        }
+        catch (IOException e) {}
         if (bitmap != null)
             MVC.model.setBitmap(url, bitmap);
     }

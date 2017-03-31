@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Flickr-Gallery.iml" filepath="$PROJECT_DIR$/Flickr-Gallery.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/flick.iml" filepath="$PROJECT_DIR$/flick.iml" />
     </modules>
   </component>
 </project>

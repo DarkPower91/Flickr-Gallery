@@ -74,23 +74,6 @@ public class PictureFragment extends com.hotmoka.android.gallery.view.PictureFra
             if(item.getItemId() == R.id.menu_item_share && MVC.controller.isIdle()){
                 ImageView image=(ImageView)getView().findViewById(R.id.picture);
                 startActivity(Intent.createChooser(MVC.controller.shareImage(image), "Share Image"));
-                /*
-                Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("image/jpeg");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-                try {
-                    f.createNewFile();
-                    FileOutputStream fo = new FileOutputStream(f);
-                    fo.write(bytes.toByteArray());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
-                startActivity(Intent.createChooser(share, "Share Image"));
-                f.deleteOnExit();*/
                 return true;
             }else
                 return super.onOptionsItemSelected(item);
