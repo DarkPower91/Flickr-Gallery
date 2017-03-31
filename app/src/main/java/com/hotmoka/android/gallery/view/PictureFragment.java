@@ -59,10 +59,6 @@ public abstract class PictureFragment extends Fragment implements GalleryFragmen
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
     /**
      * Shows the picture corresponding to the given position in the list.
      * If missing, it will start a background download task.

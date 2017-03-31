@@ -1,24 +1,15 @@
 package com.hotmoka.android.gallery.view;
 
-import android.annotation.TargetApi;
+
 import android.app.ListFragment;
-
-import android.content.Intent;
 import android.graphics.Bitmap;
-
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.UiThread;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ShareActionProvider;
-
 import com.hotmoka.android.gallery.MVC;
-import com.hotmoka.android.gallery.R;
 import com.hotmoka.android.gallery.model.Pictures;
 
 import static com.hotmoka.android.gallery.model.Pictures.Event.*;
@@ -55,11 +46,6 @@ public abstract class TitlesFragment extends ListFragment
         super.onCreate(savedInstanceState);
         // This fragment uses menus
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

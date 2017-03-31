@@ -2,15 +2,11 @@ package com.hotmoka.android.gallery.view.two;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.R;
-import com.hotmoka.android.gallery.view.GalleryActivity;
-
 /**
  * The picture fragment for a two panes layout.
  */
