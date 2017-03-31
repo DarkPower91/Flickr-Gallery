@@ -2,10 +2,7 @@ package com.hotmoka.android.gallery.controller;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
-
 import com.hotmoka.android.gallery.MVC;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
