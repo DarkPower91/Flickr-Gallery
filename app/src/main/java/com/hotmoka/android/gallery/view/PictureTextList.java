@@ -17,9 +17,9 @@ import com.hotmoka.android.gallery.R;
 
 public class PictureTextList extends ArrayAdapter<String> {
 
-    private final Activity context;
-    private final String [] names;
-    private final Bitmap[] images;
+    private Activity context;
+    private String [] names;
+    private Bitmap[] images;
 
     public PictureTextList (Activity context, String[] names, Bitmap[] images)
     {
@@ -45,5 +45,11 @@ public class PictureTextList extends ArrayAdapter<String> {
             imageView.setVisibility(View.INVISIBLE);
         }
         return rowView;
+    }
+
+    public void setImages (Bitmap[] images)
+    {
+        this.images = images;
+        notifyDataSetChanged();
     }
 }
