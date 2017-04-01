@@ -82,7 +82,7 @@ public class ControllerService extends IntentService {
         }
     }
 
-    static Intent shareImage(TextView text,ImageView image){
+    static Intent shareImage(ImageView image){
         Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("image/jpeg");
@@ -96,7 +96,6 @@ public class ControllerService extends IntentService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        share.putExtra(Intent.EXTRA_SUBJECT,"Title:\n"+text.getText());
         share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
         f.deleteOnExit();
         return share;

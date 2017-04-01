@@ -73,6 +73,6 @@ public class Controller {
         taskCounter.set(0);
     }
 
-    public Intent shareImage(TextView text, ImageView image){return ControllerService.shareImage(text,image);}
+    public Intent shareImage(ImageView image){return ControllerService.shareImage(image);}
 
 }
