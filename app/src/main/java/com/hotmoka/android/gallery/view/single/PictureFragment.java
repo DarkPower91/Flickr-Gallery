@@ -59,7 +59,8 @@ public class PictureFragment extends com.hotmoka.android.gallery.view.PictureFra
     public boolean onOptionsItemSelected(MenuItem item) {
             if(item.getItemId() == R.id.menu_item_share && MVC.controller.isIdle()){
                 ImageView image=(ImageView)getView().findViewById(R.id.picture);
-                startActivity(Intent.createChooser(MVC.controller.shareImage(image), "Share Image"));
+                TextView text=(TextView) getView().findViewById(R.id.picture_title);
+                startActivity(Intent.createChooser(MVC.controller.shareImage(text,image), "Share Image"));
                 return true;
             }else
                 return super.onOptionsItemSelected(item);
