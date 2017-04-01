@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.UiThread;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -72,6 +73,6 @@ public class Controller {
         taskCounter.set(0);
     }
 
-    public Intent shareImage(ImageView image){return ControllerService.shareImage(image);}
+    public Intent shareImage(TextView text, ImageView image){return ControllerService.shareImage(text,image);}
 
 }
