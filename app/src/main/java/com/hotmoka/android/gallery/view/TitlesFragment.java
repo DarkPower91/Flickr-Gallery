@@ -20,7 +20,6 @@ import static com.hotmoka.android.gallery.model.Pictures.Event.*;
 public abstract class TitlesFragment extends ListFragment
         implements GalleryFragment {
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -60,7 +59,8 @@ public abstract class TitlesFragment extends ListFragment
             setListAdapter(new PictureTextList(getActivity(), titles == null ? new String[0] : titles, titles == null ? new Bitmap[0]:new Bitmap[titles.length]));
         }
         if(event == LOWRES_BITMAP_CHANGED){
-            setListAdapter(new PictureTextList(getActivity(), MVC.model.getTitles(), MVC.model.getLowResBitmaps()));
+            ((PictureTextList) getListAdapter()).setImages(MVC.model.getLowResBitmaps());
+
         }
     }
 }
