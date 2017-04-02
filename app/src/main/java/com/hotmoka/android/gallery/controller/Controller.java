@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.UiThread;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
