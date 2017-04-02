@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.hotmoka.android.gallery.MVC;
@@ -38,7 +39,9 @@ public class TitlesFragment extends com.hotmoka.android.gallery.view.TitlesFragm
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_titles, menu);
         share=menu.findItem(R.id.menu_item_share);
-        share.setVisible(false);
+        if(((ImageView)getView().findViewById(R.id.picture)).getDrawable()==null){
+            share.setVisible(false);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 

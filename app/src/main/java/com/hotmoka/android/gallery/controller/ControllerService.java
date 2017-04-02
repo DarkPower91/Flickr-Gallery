@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.WorkerThread;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.hotmoka.android.gallery.MVC;
 import com.hotmoka.android.gallery.R;
